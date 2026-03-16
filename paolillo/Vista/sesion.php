@@ -8,7 +8,7 @@
 </head>
 <body>
     <main>
-        <h1>Inicia sesion</h1>
+        <h2 class="h2">Inicia sesion</h2>
         <form class="form" action="../Controlador/proceso_sesion.php" method="post">
             
             <div class="div">

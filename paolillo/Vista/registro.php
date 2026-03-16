@@ -8,7 +8,7 @@
 </head>
 <body>
     <main>
-        <h1>Registro</h1>
+        <h2>Registro</h2>
         <form class="form" action="../Controlador/server.php" method="post">
             <div class="div">
                 <label class="label" for="nom">
