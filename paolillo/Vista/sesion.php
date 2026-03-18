@@ -9,7 +9,7 @@
 <body>
     <main>
         <h2 class="h2">Inicia sesion</h2>
-        <form class="form" action="../Controlador/proceso_sesion.php" method="post">
+        <form class="form" action="../Controlador/server-sesion.php" method="post">
             
             <div class="div">
                 <label class="label" for="email">
@@ -27,7 +27,7 @@
             
             <input type="submit" class="label__input input__submit">
         </form>
-        <p class="p">¿No tienes cuenta? <a href="/paolillo/Vista/registro.php">Click aqui</a> para crear una cuenta.</p>
+        <p class="p">¿No tienes cuenta? <a href="registro.php">Click aqui</a> para crear una cuenta.</p>
     </main>
 </body>
 </html>

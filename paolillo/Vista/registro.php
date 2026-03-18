@@ -33,7 +33,7 @@
             
             <input type="submit" class="label__input input__submit">
         </form>
-        <p class="p">¿Tienes cuenta? <a href="/paolillo/Vista/sesion.php">Click aqui</a> para iniciar sesion.</p>
+        <p class="p">¿Tienes cuenta? <a href="sesion.php">Click aqui</a> para iniciar sesion.</p>
     </main>
 </body>
 </html>
