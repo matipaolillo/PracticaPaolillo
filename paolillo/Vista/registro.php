@@ -9,7 +9,7 @@
 <body>
     <main>
         <h2>Registro</h2>
-        <form class="form" action="../Controlador/server.php" method="post">
+        <form class="form" action="../Controlador/server-registro.php" method="post">
             <div class="div">
                 <label class="label" for="nom">
                     nombre
