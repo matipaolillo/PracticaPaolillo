@@ -9,7 +9,8 @@
 <body>
     <main>
         <h2>Registro</h2>
-        <form class="form" action="../Controlador/server-registro.php" method="post">
+        <form class="form" action="../Controlador/server-auth.php" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="accion" value="registro">
             <div class="div">
                 <label class="label" for="nom">
                     nombre
@@ -29,7 +30,10 @@
                
                 <input class="label__input" name="password" id="pwd"type="password">
             </div>
-            
+            <div class="div">
+                <label for="foto">Selecciona una imagen:</label>
+                <input type="file" name="imagen_usuario" id="foto" accept="image/*">
+            </div>
             
             <input type="submit" class="label__input input__submit">
         </form>

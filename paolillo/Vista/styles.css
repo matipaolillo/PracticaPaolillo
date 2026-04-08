@@ -93,3 +93,9 @@ h1{
     background-color: #875e9d;
     font-size: 2.5em;
 }
+
+.user__img{
+    width: 200px;
+    margin: auto;
+    
+}

@@ -9,7 +9,8 @@
 <body>
     <main>
         <h2 class="h2">Inicia sesion</h2>
-        <form class="form" action="../Controlador/server-sesion.php" method="post">
+        <form class="form" action="../Controlador/server-auth.php" method="post">
+            <input type="hidden" name="accion" value="login">
             
             <div class="div">
                 <label class="label" for="email">

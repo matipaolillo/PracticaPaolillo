@@ -1,16 +1,34 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['usuario_id'])) {
+    header("Location: sesion.php");
+    exit();
+}
+
+$nombreUsuario = $_SESSION['usuario_nombre'] ?? 'Usuario';
+$rutaImagen = $_SESSION['usuario_imagen'] ?? null;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>Document</title>
+    <title>Perfil</title>
 </head>
 <body>
     <main>
         <div class="div">
+            <h1>Bienvenido, <?php echo htmlspecialchars($nombreUsuario); ?>!</h1>
+            <?php if (!empty($rutaImagen)): ?>
+                <img src="../<?php echo htmlspecialchars($rutaImagen); ?>" alt="Imagen de perfil" class="user__img">
+            <?php else: ?>
+                <p>No tienes imagen de perfil cargada.</p>
+            <?php endif; ?>
+            <?php if (false): ?>
 <h1>¡Bienvenido!</h1>
-<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perspiciatis voluptates, ea ex, quibusdam labore ipsum officia velit expedita numquam quam enim harum, quo temporibus. Nemo ab dolor quasi ea fugit?</p>
+            <?php endif; ?>
         </div>
         
         <div class="div grid__cont">
