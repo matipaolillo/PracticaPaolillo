@@ -31,12 +31,22 @@
                 <input class="label__input" name="password" id="pwd"type="password">
             </div>
             <div class="div">
+                <label class="label" for="pwd">confirm password</label>
+               
+                <input class="label__input" name="password-confirm" id="pwd-confirm"type="password">
+            </div>
+            <div class="div">
                 <label for="foto">Selecciona una imagen:</label>
                 <input type="file" name="imagen_usuario" id="foto" accept="image/*">
             </div>
             
             <input type="submit" class="label__input input__submit">
         </form>
+        <?php
+        $mensaje = $_GET["mensaje"] ?? "";
+        if($mensaje != "")
+            echo $mensaje;
+        ?>
         <p class="p">¿Tienes cuenta? <a href="sesion.php">Click aqui</a> para iniciar sesion.</p>
     </main>
 </body>

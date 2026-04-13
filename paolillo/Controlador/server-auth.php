@@ -13,6 +13,7 @@ if ($accion === 'registro') {
     $nombre = $_POST["name"] ?? '';
     $email = $_POST["email"] ?? '';
     $pwd = $_POST["password"] ?? '';
+    $pwd_confirm = $_POST["password-confirm"] ?? '';
     $rutaImagen = null;
 
     if (isset($_FILES['imagen_usuario']) && $_FILES['imagen_usuario']['error'] === UPLOAD_ERR_OK) {
@@ -41,30 +42,35 @@ if ($accion === 'registro') {
 
         $rutaImagen = 'uploads/' . $fileName;
     }
-
-    if ($rutaImagen !== null) {
-        $stmt = $conn->prepare("INSERT INTO usuario(usr_name, usr_email, usr_pass, imagen) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $nombre, $email, $pwd, $rutaImagen);
-    } else {
-        $stmt = $conn->prepare("INSERT INTO usuario(usr_name, usr_email, usr_pass) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $nombre, $email, $pwd);
-    }
-
-    try {
-        $stmt->execute();
-    } catch (\Throwable $th) {
-        if ($rutaImagen !== null && file_exists(__DIR__ . '/../' . $rutaImagen)) {
-            unlink(__DIR__ . '/../' . $rutaImagen);
+    if ($pwd_confirm == $pwd) {
+        if ($rutaImagen !== null) {
+            $stmt = $conn->prepare("INSERT INTO usuario(usr_name, usr_email, usr_pass, imagen) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $nombre, $email, $pwd, $rutaImagen);
+        } else {
+            $stmt = $conn->prepare("INSERT INTO usuario(usr_name, usr_email, usr_pass) VALUES (?, ?, ?)");
+            $stmt->bind_param("sss", $nombre, $email, $pwd);
         }
-        echo "error de registro: Ya existe alguien con ese email.";
+
+        try {
+            $stmt->execute();
+        } catch (\Throwable $th) {
+            if ($rutaImagen !== null && file_exists(__DIR__ . '/../' . $rutaImagen)) {
+                unlink(__DIR__ . '/../' . $rutaImagen);
+            }
+            echo "error de registro: Ya existe alguien con ese email.";
+            exit();
+        }
+
+        $stmt->close();
+        $conn->close();
+
+        header("Location: ../Vista/sesion.php");
+        exit();
+    }else{
+        header("Location: ../Vista/registro.php?mensaje=Las contraseñas no coinciden");
         exit();
     }
 
-    $stmt->close();
-    $conn->close();
-
-    header("Location: ../Vista/sesion.php");
-    exit();
 }
 
 if ($accion === 'login') {

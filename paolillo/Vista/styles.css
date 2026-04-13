@@ -99,3 +99,28 @@ h1{
     margin: auto;
     
 }
+.logout__form {
+    width: max-content;
+    margin: auto;
+    margin-top: 100px;
+}
+.logout__btn{
+    background-color: #77369a;
+    border-radius: 15px;
+    box-shadow: 0 15px 15px #00000061;
+    color: #dadada;
+    font-size: 20px;
+    transition: all .6s;
+    padding: 20px;
+    border: none;
+}
+.logout__btn:hover{
+    background-color: #dadada;
+    color: #77369a;
+}
+.footer{
+    width: 100%;
+    height: 120px;
+    background-color: #161616;
+    margin-top: 50px;
+}

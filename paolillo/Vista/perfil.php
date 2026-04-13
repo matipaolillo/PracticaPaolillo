@@ -37,7 +37,12 @@ $rutaImagen = $_SESSION['usuario_imagen'] ?? null;
             <div>CSS</div>
             <div>php</div>
         </div>
+        <form class="logout__form" action="../Controlador/logout-proceso.php" method="post">
+            <button class="logout__btn" type="submit">Cerrar sesion</button>
+        </form>
     </main>
-    
+    <footer class="footer">
+
+    </footer>
 </body>
 </html>
