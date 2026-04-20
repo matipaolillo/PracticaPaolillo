@@ -9,7 +9,7 @@
 <body>
     <main>
         <h2>Registro</h2>
-        <form class="form" action="../Controlador/server-auth.php" method="post" enctype="multipart/form-data">
+        <form class="form" action="../Controlador/server-auth.php" method="post" enctype="multipart/form-data" id="registroForm">
             <input type="hidden" name="accion" value="registro">
             <div class="div">
                 <label class="label" for="nom">
@@ -23,17 +23,17 @@
                     email
                 
                 </label>
-                <input class="label__input" name="email"id="email" type="email" placeholder="algo@gmail.com">
+                <input class="label__input" name="email" id="email" type="email" placeholder="algo@gmail.com">
             </div>
             <div class="div">
                 <label class="label" for="pwd">password</label>
                
-                <input class="label__input" name="password" id="pwd"type="password">
+                <input class="label__input" name="password" id="pwd" type="password">
             </div>
             <div class="div">
                 <label class="label" for="pwd">confirm password</label>
                
-                <input class="label__input" name="password-confirm" id="pwd-confirm"type="password">
+                <input class="label__input" name="password-confirm" id="pwd-confirm" type="password">
             </div>
             <div class="div">
                 <label for="foto">Selecciona una imagen:</label>
@@ -49,5 +49,6 @@
         ?>
         <p class="p">¿Tienes cuenta? <a href="sesion.php">Click aqui</a> para iniciar sesion.</p>
     </main>
+    <script src="registro_validation.js"></script>
 </body>
 </html>

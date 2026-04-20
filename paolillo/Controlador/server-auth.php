@@ -16,6 +16,17 @@ if ($accion === 'registro') {
     $pwd_confirm = $_POST["password-confirm"] ?? '';
     $rutaImagen = null;
 
+    if(empty($nombre) || empty($email) || empty($pwd) || empty($pwd_confirm)) {
+        header("Location: ../Vista/registro.php?mensaje=Todos los campos son obligatorios");
+        exit();
+    } else if(strlen($pwd) < 8) {
+        header("Location: ../Vista/registro.php?mensaje=La contraseña debe tener al menos 8 caracteres");
+        exit();
+    } else if($pwd !== $pwd_confirm) {
+        header("Location: ../Vista/registro.php?mensaje=Las contraseñas no coinciden");
+        exit();
+    }
+
     if (isset($_FILES['imagen_usuario']) && $_FILES['imagen_usuario']['error'] === UPLOAD_ERR_OK) {
         $tmpPath = $_FILES['imagen_usuario']['tmp_name'];
         $originalName = $_FILES['imagen_usuario']['name'];
