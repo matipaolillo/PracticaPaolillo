@@ -38,7 +38,8 @@ $rutaImagen = $_SESSION['usuario_imagen'] ?? null;
             <div>CSS</div>
             <div>php</div>
         </div>
-        <form class="logout__form" action="../Controlador/logout-proceso.php" method="post">
+        <form class="logout__form" action="../Controlador/server-auth.php" method="post">
+            <input type="hidden" name="accion" value="logout">
             <button class="logout__btn" type="submit">Cerrar sesion</button>
         </form>
 
@@ -65,11 +66,48 @@ $rutaImagen = $_SESSION['usuario_imagen'] ?? null;
             $primerImagen = $usuarios[0]['imagen'] ?? '../uploads/predeterminada.webp';
             $primerNombre = $usuarios[0]['usr_name'] ?? 'Usuario';
             echo '<img id="imagen-seleccionada" src="../' . $primerImagen . '" alt="Imagen de perfil" style="max-width:150px;" class="user__img-selected">';
-            echo '<h3 id="nombre-seleccionado"class="user__name-selected">' . $primerNombre . '</h3>';
+            echo '<h4 id="nombre-seleccionado"class="user__name-selected">' . $primerNombre . '</h4>';
             ?>
             
             
             
+        </div>
+        <div>
+            <h3>Publicaciones</h3>
+            <div id="publicaciones-container">
+                <?php
+                    $publicaciones = array();
+                    $sql = "SELECT p.mensaje, u.usr_name, u.imagen, p.fecha_publicacion FROM publicaciones p JOIN usuario u ON p.id_usuario = u.id ORDER BY p.fecha_publicacion DESC";
+                    $resultado = mysqli_query($conn, $sql);
+                    if ($resultado) {
+                        while ($fila = mysqli_fetch_assoc($resultado)) {
+                            $publicaciones[] = $fila;
+                        }
+                    }
+                    foreach ($publicaciones as $publicacion) {
+                        $mensaje = htmlspecialchars($publicacion['mensaje']);
+                        $nombre = htmlspecialchars($publicacion['usr_name']);
+                        $imagen = htmlspecialchars($publicacion['imagen']);
+                        $fecha = htmlspecialchars($publicacion['fecha_publicacion']);
+                        echo "<div class='publicacion'>";
+                        echo "<img src='../$imagen' alt='Imagen de perfil' class='user__img-publicacion'>";
+                        echo "<div class='contenido-publicacion'>";
+                        echo "<h4>$nombre</h4>";
+                        echo "<p>$mensaje</p>";
+                        echo "<span class='fecha-publicacion'>$fecha</span>";
+                        echo "</div>";
+                        echo "</div>";
+                    }
+                ?>
+            </div>
+        </div>
+        <div class="div__publicaciones">
+            <h3>Publicar</h3>
+            <form action="../Controlador/server-auth.php" method="post" class="form" value="Publicar">
+                <input type="hidden" name="accion" value="Publicar">
+                <textarea name="contenido" placeholder="Escribe tu publicación aquí..." required class="label__input"></textarea>
+                <input type="submit" value="Publicar" class="input__submit">
+            </form>
         </div>
     </main>
     <footer class="footer">

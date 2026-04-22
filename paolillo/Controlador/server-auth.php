@@ -112,6 +112,36 @@ if ($accion === 'login') {
     exit();
 }
 
-header("Location: ../Vista/sesion.php");
-exit();
+if ($accion === 'logout') {
+    // Limpiar todas las variables de sesión
+    $_SESSION = array();
+
+    // Borrar la cookie de sesión si existe
+    if (ini_get("session.use_cookies")) {
+        setcookie(session_name(), '', time() - 42000, '/');
+    }
+
+    session_destroy();
+    header("Location: ../Vista/sesion.php");
+    exit();
+}
+if($accion === 'Publicar') {
+    $contenido = $_POST['contenido'] ?? '';
+    $usuario_id = $_POST['usuario_id'] ?? $_SESSION['usuario_id'] ?? null;
+
+
+
+    if (empty($contenido)) {
+        header("Location: ../Vista/perfil.php?mensaje=El contenido no puede estar vacío");
+        exit();
+    }
+
+    $stmt = $conn->prepare("INSERT INTO publicaciones (id_usuario, mensaje, fecha_publicacion) VALUES (?, ?, NOW())");
+    $stmt->bind_param("is",$usuario_id, $contenido);
+    $stmt->execute();
+    $stmt->close();
+    header("Location: ../Vista/perfil.php");
+    exit();
+}
+
 ?>

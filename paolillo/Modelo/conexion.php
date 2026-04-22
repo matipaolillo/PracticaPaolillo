@@ -20,8 +20,21 @@
 	  imagen VARCHAR(100) DEFAULT NULL,
 	  PRIMARY KEY (id)
 	);
-	INSERT INTO base_usuarios.usuario(usr_name, usr_email, usr_pass) VALUES ('Usuario1','usuario122@gmail.com','123456'); 
+    CREATE TABLE IF NOT EXISTS base_usuarios.publicaciones (
+    id_publicacion INT(11) NOT NULL AUTO_INCREMENT,
+    mensaje TEXT NOT NULL,
+    id_usuario INT(11) NOT NULL,
+    fecha_publicacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id_publicacion),
+    CONSTRAINT fk_usuario_publicacion 
+        FOREIGN KEY (id_usuario) 
+        REFERENCES base_usuarios.usuario(id) 
+        ON DELETE CASCADE 
+        ON UPDATE CASCADE
+);
+	
 
 	SELECT * FROM usuario;
+    select * from publicaciones;
 	*/
 ?>

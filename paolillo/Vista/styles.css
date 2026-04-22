@@ -10,6 +10,18 @@ h2{
     font-size: 4em;
     color: #dadada;
 }
+h3{
+    color: #dadada;
+    margin: 0;
+    margin-top: 50px;
+    text-align: center;
+    font-size: 3em;
+}
+h4{
+    color: #dadada;
+    margin: 0;
+    font-size: 1em;
+}
 .form{
     background-color: #77369a;
     width: 50%;
@@ -41,12 +53,18 @@ h2{
     border: none;
     border-left: 2px solid #dadada;
     color: #fff;
+    resize: none;
+}
+textarea.label__input{
+    width: 70%;
+    height: 100px;
 }
 .input__submit{
     background-color: #37373767;
     border: 2px solid #dadada;
     width: 70%;
     transition: all .6s;
+    color: #dadada;
 }
 .input__submit:hover{
     background-color: #dadada;
@@ -190,3 +208,33 @@ h1{
     background-color: #875e9d;
     border-radius: 5px;
 }
+#publicaciones-container{
+    width: 90%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: auto;
+    margin-top: 50px;
+    
+
+}
+.publicacion{
+    background-color: #77369a;
+    color: #dadada;
+    border-radius: 15px;
+    box-shadow: 0 15px 15px #00000061;
+    padding: 20px;
+    display: flex;
+    gap: 15px;
+}
+.user__img-publicacion{
+    width: 50px;
+    height: 50px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center; 
+    border-radius: 50%;
+    border: 2px solid #dadada;
+}
+
