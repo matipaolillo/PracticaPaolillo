@@ -61,8 +61,15 @@ $rutaImagen = $_SESSION['usuario_imagen'] ?? null;
             ?>
         </div>
         <div id="usuario-seleccionado" class="div_seleccionado" >
-            <h3 id="nombre-seleccionado"class="user__name-selected"></h3>
-            <img id="imagen-seleccionada" src="" alt="Imagen de perfil" style="max-width:150px; display:none;" class="user__img-selected">
+            <?php
+            $primerImagen = $usuarios[0]['imagen'] ?? '../uploads/predeterminada.webp';
+            $primerNombre = $usuarios[0]['usr_name'] ?? 'Usuario';
+            echo '<img id="imagen-seleccionada" src="../' . $primerImagen . '" alt="Imagen de perfil" style="max-width:150px;" class="user__img-selected">';
+            echo '<h3 id="nombre-seleccionado"class="user__name-selected">' . $primerNombre . '</h3>';
+            ?>
+            
+            
+            
         </div>
     </main>
     <footer class="footer">

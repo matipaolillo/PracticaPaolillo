@@ -44,8 +44,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         imgSel.src = '../' + imagen;
                         imgSel.style.display = 'block';
                     } else {
-                        imgSel.src = '';
-                        imgSel.style.display = 'none';
+                        imgSel.src = '../uploads/predeterminada.webp';
+                        imgSel.style.display = 'block';
                     }
                     divSeleccionado.style.display = 'block';
                 });
