@@ -1,4 +1,5 @@
 <?php
+include '../Modelo/conexion.php';
 session_start();
 
 if (!isset($_SESSION['usuario_id'])) {
@@ -40,9 +41,33 @@ $rutaImagen = $_SESSION['usuario_imagen'] ?? null;
         <form class="logout__form" action="../Controlador/logout-proceso.php" method="post">
             <button class="logout__btn" type="submit">Cerrar sesion</button>
         </form>
+
+        <div class="div__usuarios">
+            <?php
+            // Obtener todos los usuarios (nombre e imagen)
+            $usuarios = array();
+            $sql = "SELECT usr_name, imagen FROM usuario";
+            $resultado = mysqli_query($conn, $sql);
+            if ($resultado) {
+                while ($fila = mysqli_fetch_assoc($resultado)) {
+                    $usuarios[] = $fila;
+                }
+            }
+            foreach ($usuarios as $usuario) {
+                $nombre = htmlspecialchars($usuario['usr_name']);
+                $imagen = htmlspecialchars($usuario['imagen']);
+                echo "<button class='usuario-btn' type='button' data-nombre='$nombre' data-imagen='$imagen'>$nombre</button> ";
+            }
+            ?>
+        </div>
+        <div id="usuario-seleccionado" class="div_seleccionado" >
+            <h3 id="nombre-seleccionado"class="user__name-selected"></h3>
+            <img id="imagen-seleccionada" src="" alt="Imagen de perfil" style="max-width:150px; display:none;" class="user__img-selected">
+        </div>
     </main>
     <footer class="footer">
 
     </footer>
+    <script src="scripts.js"></script>
 </body>
 </html>
