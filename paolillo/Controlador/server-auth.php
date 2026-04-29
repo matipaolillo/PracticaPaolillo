@@ -8,8 +8,26 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $accion = $_POST['accion'] ?? '';
-
-if ($accion === 'registro') {
+switch($accion){
+    case 'registro':
+        registrarUsuario($conn);
+        break;
+    case 'login':
+        logearUsuario($conn);
+        break;
+    
+    case 'logout':
+        logoutUsuario();
+        break;
+    case 'Publicar':
+        publicar($conn);
+        break;
+    
+    default:
+        echo "accion no valida";
+        break;
+}
+function registrarUsuario($conn){
     $nombre = $_POST["name"] ?? '';
     $email = $_POST["email"] ?? '';
     $pwd = $_POST["password"] ?? '';
@@ -54,29 +72,7 @@ if ($accion === 'registro') {
         $rutaImagen = 'uploads/' . $fileName;
     }
     if ($pwd_confirm == $pwd) {
-        if ($rutaImagen !== null) {
-            $stmt = $conn->prepare("INSERT INTO usuario(usr_name, usr_email, usr_pass, imagen) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $nombre, $email, $pwd, $rutaImagen);
-        } else {
-            $stmt = $conn->prepare("INSERT INTO usuario(usr_name, usr_email, usr_pass) VALUES (?, ?, ?)");
-            $stmt->bind_param("sss", $nombre, $email, $pwd);
-        }
-
-        try {
-            $stmt->execute();
-        } catch (\Throwable $th) {
-            if ($rutaImagen !== null && file_exists(__DIR__ . '/../' . $rutaImagen)) {
-                unlink(__DIR__ . '/../' . $rutaImagen);
-            }
-            echo "error de registro: Ya existe alguien con ese email.";
-            exit();
-        }
-
-        $stmt->close();
-        $conn->close();
-
-        header("Location: ../Vista/sesion.php");
-        exit();
+        insertUsuario($conn, $nombre,$pwd,$email,$rutaImagen);
     }else{
         header("Location: ../Vista/registro.php?mensaje=Las contraseñas no coinciden");
         exit();
@@ -84,7 +80,8 @@ if ($accion === 'registro') {
 
 }
 
-if ($accion === 'login') {
+
+function logearUsuario($conn) {
     $login_email = $_POST["login_email"] ?? '';
     $login_pwd = $_POST["login_password"] ?? '';
 
@@ -112,7 +109,7 @@ if ($accion === 'login') {
     exit();
 }
 
-if ($accion === 'logout') {
+function logoutUsuario() {
     // Limpiar todas las variables de sesión
     $_SESSION = array();
 
@@ -125,7 +122,7 @@ if ($accion === 'logout') {
     header("Location: ../Vista/sesion.php");
     exit();
 }
-if($accion === 'Publicar') {
+function publicar($conn) {
     $contenido = $_POST['contenido'] ?? '';
     $usuario_id = $_POST['usuario_id'] ?? $_SESSION['usuario_id'] ?? null;
 
