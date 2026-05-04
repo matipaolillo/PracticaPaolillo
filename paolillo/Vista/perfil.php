@@ -72,6 +72,19 @@ $rutaImagen = $_SESSION['usuario_imagen'] ?? null;
             
             
         </div>
+        <div class="div_lista div">
+            <btn class="btn__añadir" id="btnAñadir">Añadir</btn>
+            <div class="modal hidden" id="modal">
+                <form class="modal__form" id="modalForm">
+                    <btn class="btn__cerrar" id="btnCerrar">x</btn>
+                    <input id="inputProducto" type="text" placeholder="producto..." alt="escribe tu producto">
+                    <input type="submit">
+                </form>
+            </div>
+                <ul class="ul__productos" id="ulProductos">
+
+                </ul>
+        </div>
         <div>
             <h3>Publicaciones</h3>
             <div id="publicaciones-container">
@@ -109,6 +122,7 @@ $rutaImagen = $_SESSION['usuario_imagen'] ?? null;
                 <input type="submit" value="Publicar" class="input__submit">
             </form>
         </div>
+        
     </main>
     <footer class="footer">
 

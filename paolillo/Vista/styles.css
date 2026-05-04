@@ -238,3 +238,15 @@ h1{
     border: 2px solid #dadada;
 }
 
+.modal {
+    width: 70%;
+    max-width: 500px;
+    display: block;
+    height: 40%;
+    margin: auto;
+    position: absolute;
+    background-color: #dadada;
+}
+.hidden{
+    display: none;
+}

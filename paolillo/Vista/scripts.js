@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const email = document.getElementById('email');
         const password = document.getElementById('pwd');
         const confirmPassword = document.getElementById('pwd-confirm');
+        
+
 
         form.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -51,6 +53,34 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             });
     }
+    const btnAñadir = document.getElementById('btnAñadir');
+    const btnCerrar = document.getElementById('btnCerrar');
+    const modal = document.getElementById('modal');
+    const inputProducto = document.getElementById('inputProducto');
+    const modalForm = document.getElementById('modalForm');
+    const ulProductos = document.getElementById('ulProductos');
+    btnAñadir.addEventListener('click',(e) => {
+        e.preventDefault();
+        modal.classList.toggle("hidden");
+    });
+    btnCerrar.addEventListener('click',(e) => {
+        e.preventDefault();
+        modal.classList.toggle("hidden");
+    });
+    modalForm.addEventListener('submit',(e)=>{
+        e.preventDefault();
+        const liProducto = document.createElement('li');
+        let inputValue = inputProducto.value;
+        liProducto.textContent = inputValue;
+        ulProductos.appendChild(liProducto);
+        const btnEliminar = document.createElement("button");
+        btnEliminar.textContent="Eliminar";
+        btnEliminar.addEventListener('click', ()=>{
+            liProducto.remove();
+        });
+        liProducto.appendChild(btnEliminar);
+        inputProducto.value = "";
+    });
     mostrarUsuarioSeleccionado();
     validarFormulario();
 });
