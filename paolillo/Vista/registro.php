@@ -9,7 +9,7 @@
 <body>
     <main>
         <h2>Registro</h2>
-        <form class="form" action="../Controlador/server-auth.php" method="post" enctype="multipart/form-data" id="registroForm">
+        <form class="form" method="post" enctype="multipart/form-data" id="registroForm">
             <input type="hidden" name="accion" value="registro">
             <div class="div">
                 <label class="label" for="nom">
@@ -42,13 +42,9 @@
             
             <input type="submit" class="label__input input__submit">
         </form>
-        <?php
-        $mensaje = $_GET["mensaje"] ?? "";
-        if($mensaje != "")
-            echo "<p class='err-p'>$mensaje</p>";
-        ?>
+        
         <p class="p">¿Tienes cuenta? <a href="sesion.php">Click aqui</a> para iniciar sesion.</p>
     </main>
-    <script src="registro_validation.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>

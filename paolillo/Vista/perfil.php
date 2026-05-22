@@ -61,57 +61,12 @@ $rutaImagen = $_SESSION['usuario_imagen'] ?? null;
             }
             ?>
         </div>
-        <div id="usuario-seleccionado" class="div_seleccionado" >
-            <?php
-            $primerImagen = $usuarios[0]['imagen'] ?? '../uploads/predeterminada.webp';
-            $primerNombre = $usuarios[0]['usr_name'] ?? 'Usuario';
-            echo '<img id="imagen-seleccionada" src="../' . $primerImagen . '" alt="Imagen de perfil" style="max-width:150px;" class="user__img-selected">';
-            echo '<h4 id="nombre-seleccionado"class="user__name-selected">' . $primerNombre . '</h4>';
-            ?>
-            
-            
-            
-        </div>
-        <div class="div_lista div">
-            <btn class="btn__añadir" id="btnAñadir">Añadir</btn>
-            <div class="modal hidden" id="modal">
-                <form class="modal__form" id="modalForm">
-                    <btn class="btn__cerrar" id="btnCerrar">x</btn>
-                    <input id="inputProducto" type="text" placeholder="producto..." alt="escribe tu producto">
-                    <input type="submit">
-                </form>
-            </div>
-                <ul class="ul__productos" id="ulProductos">
-
-                </ul>
-        </div>
+        
+        
         <div>
             <h3>Publicaciones</h3>
             <div id="publicaciones-container">
-                <?php
-                    $publicaciones = array();
-                    $sql = "SELECT p.mensaje, u.usr_name, u.imagen, p.fecha_publicacion FROM publicaciones p JOIN usuario u ON p.id_usuario = u.id ORDER BY p.fecha_publicacion DESC";
-                    $resultado = mysqli_query($conn, $sql);
-                    if ($resultado) {
-                        while ($fila = mysqli_fetch_assoc($resultado)) {
-                            $publicaciones[] = $fila;
-                        }
-                    }
-                    foreach ($publicaciones as $publicacion) {
-                        $mensaje = htmlspecialchars($publicacion['mensaje']);
-                        $nombre = htmlspecialchars($publicacion['usr_name']);
-                        $imagen = htmlspecialchars($publicacion['imagen']);
-                        $fecha = htmlspecialchars($publicacion['fecha_publicacion']);
-                        echo "<div class='publicacion'>";
-                        echo "<img src='../$imagen' alt='Imagen de perfil' class='user__img-publicacion'>";
-                        echo "<div class='contenido-publicacion'>";
-                        echo "<h4>$nombre</h4>";
-                        echo "<p>$mensaje</p>";
-                        echo "<span class='fecha-publicacion'>$fecha</span>";
-                        echo "</div>";
-                        echo "</div>";
-                    }
-                ?>
+                
             </div>
         </div>
         <div class="div__publicaciones">

@@ -9,7 +9,7 @@
 <body>
     <main>
         <h2 class="h2">Inicia sesion</h2>
-        <form class="form" action="../Controlador/server-auth.php" method="post">
+        <form id="loginForm" class="form"  method="post">
             <input type="hidden" name="accion" value="login">
             
             <div class="div">
@@ -17,12 +17,12 @@
                     email
                 
                 </label>
-                <input class="label__input" name="login_email" id="email" type="email" placeholder="algo@gmail.com">
+                <input class="label__input" name="login_email" id="login_email" type="email" placeholder="algo@gmail.com">
             </div>
             <div class="div">
                 <label class="label" for="pwd">password</label>
                
-                <input class="label__input" name="login_password" id="pwd"type="password">
+                <input class="label__input" name="login_password" id="login_password"type="password">
             </div>
             
             
@@ -30,5 +30,6 @@
         </form>
         <p class="p">¿No tienes cuenta? <a href="registro.php">Click aqui</a> para crear una cuenta.</p>
     </main>
+    <script src="scripts.js"></script>
 </body>
 </html>
