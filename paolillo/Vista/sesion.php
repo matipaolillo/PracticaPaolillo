@@ -30,6 +30,46 @@
         </form>
         <p class="p">¿No tienes cuenta? <a href="registro.php">Click aqui</a> para crear una cuenta.</p>
     </main>
-    <script src="scripts.js"></script>
+    <script>
+        const loginForm = document.getElementById('loginForm');
+
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('login_email');
+        const password = document.getElementById('login_password');
+        const body = {
+            usr_email: email.value,
+            usr_pass: password.value
+        };
+        try{
+fetch('../Controlador/api.php/login', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
+        .then(async response => {
+            const data = await response.json();
+            if (response.ok && data.success) {
+                window.location.href = 'perfil.php';
+            } else {
+                alert(data.error || 'Error en el inicio de sesión');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error en la conexión con el servidor');
+        });
+        }catch(error){
+            console.error('Error:', error);
+            alert('Error en la conexión con el servidor');
+        }
+        
+
+    });
+    </script>
 </body>
 </html>

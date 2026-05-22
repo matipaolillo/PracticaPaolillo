@@ -1,4 +1,5 @@
 <?php
+    session_start();
     require_once '../Modelo/conexion.php';
     require_once 'usuario.php';
     require_once 'publicacion.php';

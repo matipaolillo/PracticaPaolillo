@@ -9,6 +9,7 @@ if (!isset($_SESSION['usuario_id'])) {
 
 $nombreUsuario = $_SESSION['usuario_nombre'] ?? 'Usuario';
 $rutaImagen = $_SESSION['usuario_imagen'] ?? null;
+$usuarioId = $_SESSION['usuario_id'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +24,7 @@ $rutaImagen = $_SESSION['usuario_imagen'] ?? null;
         <div class="div">
             <h1>Bienvenido, <?php echo htmlspecialchars($nombreUsuario); ?>!</h1>
             <?php if (!empty($rutaImagen)): ?>
-                <img src="../<?php echo htmlspecialchars($rutaImagen); ?>" alt="Imagen de perfil" class="user__img">
+                <img src="../Controlador/uploads/<?php echo htmlspecialchars($rutaImagen); ?>" alt="Imagen de perfil" class="user__img">
             <?php else: ?>
                 <p>No tienes imagen de perfil cargada.</p>
             <?php endif; ?>
@@ -38,29 +39,12 @@ $rutaImagen = $_SESSION['usuario_imagen'] ?? null;
             <div>CSS</div>
             <div>php</div>
         </div>
-        <form class="logout__form" action="../Controlador/server-auth.php" method="post">
+        <form class="logout__form" id="logoutForm">
             <input type="hidden" name="accion" value="logout">
             <button class="logout__btn" type="submit">Cerrar sesion</button>
         </form>
 
-        <div class="div__usuarios">
-            <?php
-            // Obtener todos los usuarios (nombre e imagen)
-            $usuarios = array();
-            $sql = "SELECT usr_name, imagen FROM usuario";
-            $resultado = mysqli_query($conn, $sql);
-            if ($resultado) {
-                while ($fila = mysqli_fetch_assoc($resultado)) {
-                    $usuarios[] = $fila;
-                }
-            }
-            foreach ($usuarios as $usuario) {
-                $nombre = htmlspecialchars($usuario['usr_name']);
-                $imagen = htmlspecialchars($usuario['imagen']);
-                echo "<button class='usuario-btn' type='button' data-nombre='$nombre' data-imagen='$imagen'>$nombre</button> ";
-            }
-            ?>
-        </div>
+        
         
         
         <div>
@@ -71,10 +55,10 @@ $rutaImagen = $_SESSION['usuario_imagen'] ?? null;
         </div>
         <div class="div__publicaciones">
             <h3>Publicar</h3>
-            <form action="../Controlador/server-auth.php" method="post" class="form" value="Publicar">
+            <form method="post" class="form" value="Publicar">
                 <input type="hidden" name="accion" value="Publicar">
-                <textarea name="contenido" placeholder="Escribe tu publicación aquí..." required class="label__input"></textarea>
-                <input type="submit" value="Publicar" class="input__submit">
+                <textarea name="contenido" placeholder="Escribe tu publicación aquí..." required class="label__input" id="contenido"></textarea>
+                <input type="submit" value="Publicar" class="input__submit" id="publicarBtn">
             </form>
         </div>
         
@@ -82,6 +66,84 @@ $rutaImagen = $_SESSION['usuario_imagen'] ?? null;
     <footer class="footer">
 
     </footer>
-    <script src="scripts.js"></script>
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Logout handler
+            const logoutForm = document.getElementById('logoutForm');
+            logoutForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                try {
+                    const response = await fetch('../Controlador/api.php/logout', {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    if (response.ok) {
+                        window.location.href = 'sesion.php';
+                    } else {
+                        alert(data.error || 'Error al cerrar sesión');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Error en la solicitud: ' + error.message);
+                }
+            });
+
+            const inputPublicar = document.getElementById('publicarBtn');
+            inputPublicar.addEventListener('click', (e) => {
+                e.preventDefault();
+                const contenido = document.getElementById('contenido').value;
+                const body = { 
+                    mensaje: contenido,
+                    id_usuario: <?php echo json_encode($_SESSION['usuario_id']); ?>
+
+
+                 };
+                fetch('../Controlador/api.php/publicar', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                })
+                .then(async response => {
+                    const data = await response.json();
+                    if (response.ok && data.success) {
+                        alert('Publicación creada con éxito');
+                        location.reload();
+                    } else {
+                        alert(data.error || 'Error al crear la publicación');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error en la solicitud: ' + error.message);
+                });
+            });
+            fetch('../Controlador/api.php/publicaciones')
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('publicaciones-container');
+                    data.forEach(pub => {
+                        const pubDiv = document.createElement('div');
+                        pubDiv.classList.add('publicacion');
+                        pubDiv.textContent = pub.mensaje;
+                        container.appendChild(pubDiv);
+                    });
+                })
+                .catch(error => console.error('Error al cargar publicaciones:', error));
+
+
+        });
+    </script>
+    
 </body>
 </html>

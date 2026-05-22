@@ -1,100 +1,75 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('registroForm');
+    const nombre = document.getElementById('nom');
+    const email = document.getElementById('email');
+    const password = document.getElementById('pwd');
+    const confirmPassword = document.getElementById('pwd-confirm');
+    const fileInput = document.getElementById('foto');
 
-const form = document.getElementById('registroForm');
-const loginForm = document.getElementById('loginForm');
-
-    loginForm.addEventListener('submit', (e) => {
+    form.addEventListener('submit', function (e) {
         e.preventDefault();
-        const email = document.getElementById('login_email');
-        const password = document.getElementById('login_password');
-        fetch('../Controlador/api.php/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                window.location.href = 'perfil.php';
-            } else {
-                alert('Error en el inicio de sesión');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
 
-    });
-    form.addEventListener('submit',async (e) => {
-    
-        
-        const nombre = document.getElementById('nom');
-        const email = document.getElementById('email');
-        const password = document.getElementById('pwd');
-        const confirmPassword = document.getElementById('pwd-confirm');
-        
-        if(validarFormulario()){
-            const fileInput = form.imagen;
-            const file = fileInput.files[0];
-            const reader = new FileReader();
-                reader.onload = function(event) {
-                    const data = {
-                    nombre: nombre.value,
-                    email: email.value,
-                    password: password.value,
-                    confirmPassword: confirmPassword.value
-                };
-            };
-        console.log(JSON.stringify(data));
-        fetch('../Controlador/api.php/usuarios', {
-
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => async function() {
-            const resJson = await response.json();
-            if (!response.ok) {
-                throw new Error(resJson.error || 'Error desconocido');
-                
-            }
-            return resJson;
-        }).then(success => {
-            alert('Registro exitoso');
-            form.reset();
-            window.location.href = 'perfil.php';
-        }   
-        ).catch(error => {
-            console.log('Error: ' + error.message);
-        });
-        
-        reader.readAsDataURL(file);
-
-    }else {
-        alert('Error en el formulario');
-        
-    }
-    });
-    function validarFormulario() {
-            e.preventDefault();
-            if (nombre.value == "" || email.value == "" || password.value == "" || confirmPassword.value == "") {
-                alert("Por favor, completa todos los campos.");
-                return;
-            } else if (password.value.length < 8) {
-                alert("La contraseña debe tener al menos 8 caracteres");
-                return;
-            } else if (password.value != confirmPassword.value) {
-                alert("Las contraseñas no coinciden");
-                return;
-            }
-            form.submit();
+        if (!validarFormulario(nombre, email, password, confirmPassword)) {
+            return;
         }
-    
-    
 
+        const file = fileInput.files[0];
+        if (!file) {
+            alert('Selecciona una imagen.');
+            return;
+        }
 
+        const reader = new FileReader();
+        reader.onload = async function (event) {
+            const data = {
+                usr_name: nombre.value.trim(),
+                usr_email: email.value.trim(),
+                usr_pass: password.value,
+                usr_pass_confirm: confirmPassword.value,
+                imagen: event.target.result
+            };
+
+            try {
+                const response = await fetch('../Controlador/api.php/usuarios', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const resJson = await response.json();
+                if (!response.ok) {
+                    alert(resJson.error || 'Error al registrar');
+                    return;
+                }
+
+                
+                form.reset();
+                window.location.href = 'sesion.php';
+                console.log(resJson);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error en la solicitud: ' + error.message);
+            }
+        };
+
+        reader.readAsDataURL(file);
+    });
+
+    function validarFormulario(nombre, email, password, confirmPassword) {
+        if (nombre.value === "" || email.value === "" || password.value === "" || confirmPassword.value === "") {
+            alert("Por favor, completa todos los campos.");
+            return false;
+        }
+        if (password.value.length < 8) {
+            alert("La contraseña debe tener al menos 8 caracteres");
+            return false;
+        }
+        if (password.value !== confirmPassword.value) {
+            alert("Las contraseñas no coinciden");
+            return false;
+        }
+        return true;
+    }
 });
